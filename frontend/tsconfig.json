@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "target": "ESNext",
+        "tsBuildInfoFile": "./buildcache/frontend",
+        "skipLibCheck": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "incremental": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "react-jsx",
+        "types": [
+            "vite/client",
+        ],
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+            "public/*": [
+                "./public/*"
+            ]
+        },
+        "allowJs": true
+    },
+    "include": [
+        "src/**/*",
+        "./*.js",
+        "./*.ts",
+        "**/*.test.ts",
+        "*.config.mts"
+    ]
+}

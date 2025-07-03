@@ -1,0 +1,68 @@
+{
+    "extends":[
+        "airbnb-typescript",
+        "plugin:prettier/recommended"
+    ],
+    "plugins": ["jsx-a11y", "react", "prettier", "import"],
+    "ignorePatterns": [
+        "dist"
+    ],
+    "parserOptions": {
+    "project": ["tsconfig.json"],
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+    "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto",
+                "singleQuote": true,
+                "jsxSingleQuote": true,
+                "trailingComma": "none",
+                "printWidth": 120,
+                "semi": true,
+                "bracketSameLine": false,
+                "useTabs": true,
+                "tabWidth": 2,
+                "quoteProps":"consistent"
+            }
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "variable",
+                "format": [
+                    "camelCase",
+                    "PascalCase",
+                    "snake_case",
+                    "UPPER_CASE"
+                ]
+            },
+            {
+                "selector": "function",
+                "format": [
+                    "camelCase",
+                    "PascalCase"
+                ]
+            },
+            {
+                "selector": "typeLike",
+                "format": [
+                    "PascalCase"
+                ]
+            }
+        ],
+        "@typescript-eslint/no-unused-vars":"warn",
+        "comma-dangle": [
+            "error",
+            "only-multiline"
+        ],
+        "arrow-body-style": [
+            "warn",
+            "as-needed"
+        ]
+    }
+}

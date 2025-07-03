@@ -1,12 +1,18 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Необходимо создать приложение-задачник (ToDo list).  
+Backend на Node.js (Express), frontend на React c использованием центрального хранилища (redux, mobx или context provider). База данных - любая реляционная. К дизайну особых требований нет, должно быть аккуратно. 
+ 
+Задачи состоят из: 
+- имени пользователя; 
+- е-mail; 
+- текста задачи; 
+ 
+Стартовая страница - список задач с возможностью сортировки по имени пользователя, email и статусу.  
+ - Вывод задач нужно сделать страницами по 3 штуки (с пагинацией).  
+ - Видеть список задач и создавать новые может любой посетитель без авторизации. 
+ 
+Сделайте вход для администратора (логин "admin", пароль "123").  
+ - Администратор имеет возможность редактировать текст задачи и поставить галочку о выполнении.  
+ - Выполненные задачи в общем списке выводятся с соответствующей отметкой.  
+ 
+Требования к коду и сценарий тестирования: https://beejee.ru/coding-challenge-requirements-nodejs 
+Пожалуйста, протестируйте приложение по сценарию перед сдачей. Если какие-то пункты не работают, я не смогу передать тестовое дальше в техотдел. 
