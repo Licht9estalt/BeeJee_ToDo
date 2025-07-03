@@ -1,17 +1,26 @@
 import { Form, Input, Button, message, Modal } from 'antd';
-// import { useAppDispatch } from './hooks';
-import { type AppDispatch } from './redux';
-import { loginAsAdmin } from './redux/auth/auth.slice';
-import { useDispatch } from 'react-redux';
+import { RootState, type AppDispatch } from '../redux';
+import { loginAsAdmin, logout } from '../redux/auth/auth.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export const LoginModal = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const dispatch = useDispatch<AppDispatch>();
 	const [messageApi, contextHolder] = message.useMessage();
+	const isAdmin = useSelector<RootState>((state) => state.auth.isAdmin);
+	const buttonText = !isAdmin ? 'Войти как администратор' : 'Выйти из профиля';
 
 	const cancelHandler = () => {
 		setIsOpen(false);
+	};
+
+	const buttonHandler = () => {
+		if (!isAdmin) {
+			setIsOpen(true);
+		} else {
+			dispatch(logout());
+		}
 	};
 
 	const loginHandler = (values: { login: string; password: string }) => {
@@ -35,11 +44,11 @@ export const LoginModal = () => {
 	return (
 		<>
 			{contextHolder}
-			<Button type='primary' onClick={() => setIsOpen(true)}>
-				Войти как администратор
+			<Button type='primary' onClick={buttonHandler}>
+				{buttonText}
 			</Button>
 			<Modal title='Вход' open={isOpen} onCancel={cancelHandler} footer={null} destroyOnHidden>
-				<Form onFinish={loginHandler} layout='inline'>
+				<Form onFinish={loginHandler}>
 					<Form.Item name='login' rules={[{ required: true }]}>
 						<Input placeholder='Логин' />
 					</Form.Item>

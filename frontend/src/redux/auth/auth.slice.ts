@@ -5,7 +5,6 @@ type AuthState = {
 };
 
 const initialState: AuthState = {
-	//   isAdmin: localStorage.getItem('isAdmin') === 'true',
 	isAdmin: false
 };
 
@@ -15,11 +14,9 @@ const authSlice = createSlice({
 	reducers: {
 		loginAsAdmin: (state) => {
 			state.isAdmin = true;
-			//   localStorage.setItem('isAdmin', 'true')
 		},
 		logout: (state) => {
 			state.isAdmin = false;
-			//   localStorage.removeItem('isAdmin')
 		}
 	}
 });

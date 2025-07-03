@@ -1,23 +1,38 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export interface Todo {
+export type Todo = {
 	id: number;
 	title: string;
 	name: string;
 	email: string;
 	completed: boolean;
-}
+	edited: boolean;
+};
 
 export const todosApi = createApi({
 	reducerPath: 'todosApi',
-	baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
+	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/' }),
 	tagTypes: ['Todos'],
 	endpoints: (builder) => ({
-		getTodos: builder.query<Todo[], void>({
-			query: () => 'todos',
+		getTodos: builder.query<
+			{ todos: Todo[]; total: number; page: number },
+			{ page?: number; limit?: number; sortBy?: string; order?: string } | void
+		>({
+			query: (params) => {
+				const query = new URLSearchParams();
+
+				if (params) {
+					if (params.page) query.set('page', params.page.toString());
+					if (params.limit) query.set('limit', params.limit.toString());
+					if (params.sortBy) query.set('sortBy', params.sortBy);
+					if (params.order) query.set('order', params.order);
+				}
+
+				return `todos?${query.toString()}`;
+			},
 			providesTags: ['Todos']
 		}),
-		addTodo: builder.mutation<Todo, Partial<Todo>>({
+		addTodo: builder.mutation<Todo, Pick<Todo, 'name' | 'email' | 'title'>>({
 			query: (body) => ({
 				url: 'todos',
 				method: 'POST',
@@ -25,16 +40,9 @@ export const todosApi = createApi({
 			}),
 			invalidatesTags: ['Todos']
 		}),
-		toggleTodo: builder.mutation<Todo, number>({
-			query: (id) => ({
-				url: `todos/${id}/toggle`,
-				method: 'PATCH'
-			}),
-			invalidatesTags: ['Todos']
-		}),
 		changeTodo: builder.mutation<Todo, { id: number; title: string }>({
 			query: ({ id, title }) => ({
-				url: `todos/${id}`,
+				url: `todos/${id}/edit`,
 				method: 'PATCH',
 				body: {
 					title
@@ -42,20 +50,17 @@ export const todosApi = createApi({
 			}),
 			invalidatesTags: ['Todos']
 		}),
-		deleteTodo: builder.mutation<void, number>({
-			query: (id) => ({
-				url: `todos/${id}`,
-				method: 'DELETE'
+		toggleTodo: builder.mutation<Todo, { id: number; completed: boolean }>({
+			query: ({ id, completed }) => ({
+				url: `todos/${id}/toggle`,
+				method: 'PATCH',
+				body: {
+					completed
+				}
 			}),
 			invalidatesTags: ['Todos']
 		})
 	})
 });
 
-export const {
-	useGetTodosQuery,
-	useAddTodoMutation,
-	useToggleTodoMutation,
-	useChangeTodoMutation,
-	useDeleteTodoMutation
-} = todosApi;
+export const { useGetTodosQuery, useAddTodoMutation, useChangeTodoMutation, useToggleTodoMutation } = todosApi;

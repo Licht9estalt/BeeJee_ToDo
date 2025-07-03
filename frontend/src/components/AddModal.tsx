@@ -1,33 +1,34 @@
 import { Button, Modal, Form, Input, message } from 'antd';
 import { useState } from 'react';
-import { useAddTodoMutation } from './redux/todos/todos.api';
+import { useAddTodoMutation } from '../redux/todos/todos.api';
 
 export const AddModal = () => {
 	const [form] = Form.useForm();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	// const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [addTodo, { isLoading }] = useAddTodoMutation();
 	const [messageApi, contextHolder] = message.useMessage();
 
-	// const okHandler = () => {
-	// 	// setIsLoading(true);
-	// 	// addTodo();
-	// };
 	const cancelHandler = () => {
 		setIsOpen(false);
+	};
+
+	const addHandler = () => {
+		setIsOpen(true);
 	};
 
 	const sendHandler = async (values: { name: string; email: string; text: string }) => {
 		try {
 			await addTodo({
 				title: values.text,
-				completed: false
+				name: values.name,
+				email: values.email
 			}).unwrap();
 
 			messageApi.open({
 				type: 'success',
 				content: 'Задача добавлена'
 			});
+
 			form.resetFields();
 			setIsOpen(false);
 		} catch (err) {
@@ -41,7 +42,7 @@ export const AddModal = () => {
 	return (
 		<>
 			{contextHolder}
-			<Button type='primary' onClick={() => setIsOpen(true)}>
+			<Button type='primary' onClick={addHandler}>
 				Добавить задачу
 			</Button>
 			<Modal
@@ -52,7 +53,7 @@ export const AddModal = () => {
 				footer={null}
 				destroyOnHidden
 			>
-				<Form form={form} layout='vertical' onFinish={sendHandler} style={{ maxWidth: 400, margin: '0 auto' }}>
+				<Form form={form} layout='vertical' onFinish={sendHandler}>
 					<Form.Item label='Имя' name='name' rules={[{ required: true, message: 'Введите имя' }]}>
 						<Input />
 					</Form.Item>
