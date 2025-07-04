@@ -11,7 +11,7 @@ export type Todo = {
 
 export const todosApi = createApi({
 	reducerPath: 'todosApi',
-	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/' }),
+	baseQuery: fetchBaseQuery({ baseUrl: 'https://todo-licht9estalt.amvera.io/' }),
 	tagTypes: ['Todos'],
 	endpoints: (builder) => ({
 		getTodos: builder.query<
